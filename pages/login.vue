@@ -23,12 +23,17 @@
         <a-form-item>
           <a-button type="primary" html-type="submit">Login</a-button>
         </a-form-item>
+
+        <a-divider/>
+
+        <nuxt-link to="/signup">회원가입</nuxt-link>
       </a-form>
     </a-col>
   </a-row>
 </template>
 
 <script>
+
 export default {
   name: 'LoginPage',
   layout: 'blank',
@@ -58,13 +63,14 @@ export default {
   },
   methods: {
     login() {
-      this.form.validateFieldsAndScroll();
-      // this.$axios.$post('/login', {
-      //
-      // }).then(res => {
-      //   console.log(res);
-      // });
-      window.localStorage.setItem('principal', 'info');
+      this.form.validateFieldsAndScroll((errors, values) => {
+        if(errors) return;
+
+        this.$store.dispatch('authentication/login',{
+            employeeId: values.loginForm.employeeId,
+            password: values.loginForm.password
+        });
+      });
     },
   }
 }

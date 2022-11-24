@@ -18,7 +18,11 @@ export default {
   css: ['ant-design-vue/dist/antd.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/antd-ui'],
+  plugins: [
+    '@/plugins/jwt-decode.js',
+    '@/plugins/antd-ui.js',
+    '@/plugins/axios.client.js'
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -41,6 +45,12 @@ export default {
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: 'http://localhost:8080',
+    credentials: true,
+    headers: {
+      common: {
+        'Access-Control-Allow-Origin': '*',
+      }
+    }
   },
 
   publicRuntimeConfig: {
@@ -52,6 +62,16 @@ export default {
   privateRuntimeConfig: {
     axios: {
       baseURL: process.env.BASE_URL
+    }
+  },
+
+  router: {
+    extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'DefaultPage',
+        path: '/',
+        redirect: '/login',
+      })
     }
   },
 
