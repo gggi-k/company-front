@@ -1,4 +1,4 @@
-# kakao-assign-front
+#company-front
 
 ## Build Setup
 
